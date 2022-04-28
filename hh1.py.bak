@@ -1,0 +1,16 @@
+import requests
+import pprint
+
+
+url = 'https://api.hh.ru/vacancies'
+
+params = {
+    'text': 'NAME:(Assembler) AND AREA:(Нижний Новгород)',
+    
+    'page': 2 # есть страницы т.к. данных много
+    }
+
+result = requests.get(url, params=params).json()
+
+pprint.pprint(result)
+

@@ -1,0 +1,22 @@
+import requests
+import pprint
+
+url = 'https://api.hh.ru/vacancies'
+
+
+
+for p in range(1,12):
+    params = {
+        'text': 'Assembler',
+        'area': 66,
+        'page': p # есть страницы т.к. данных много
+        }
+
+    result = requests.get(url, params=params).json()
+    for i in range(20):
+        print(p, i)
+        print(result['items'][i]['url'])
+        print(result['items'][i]['area']['name'])
+        print(result['items'][i]['name'])
+        print(result['items'][i]['snippet']['requirement'])
+        
