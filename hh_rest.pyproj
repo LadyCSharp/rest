@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>c4e180a1-6fec-40ca-9576-37312a11a3c2</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>hh_rest.py</StartupFile>
+    <StartupFile>hubgit.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,10 +21,16 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="hg1.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="hh1.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="hh_rest.py" />
+    <Compile Include="hubgit.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
