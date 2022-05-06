@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Главная страничка</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="templates/css/styles.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
 </head>
 <body>
+
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container px-4 px-lg-5">
 
@@ -22,45 +24,52 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="main_page.html">Главная</a></li>
-                        <li class="nav-item"><a class="nav-link" href="hh-parser.html">HH-поиск</a></li>
-                        <li class="nav-item"><a class="nav-link" href="results.html">Результат</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/HH-parser/">HH-поиск</a></li>
+
+                        <li class="nav-item"><a class="nav-link" href="/results/">Результат</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/contacts/">Контакты</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-  <section class="about-section text-center" id="projects">
-       <img class="img-fluid" src="templates/assets/img/ipad.png" alt="..." />
+  <section class="about-section text-left" id="about">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
-                        <h2 class="text-white mb-4">Ха-ха- парсер</h2>
+                        <h2 class="text-white mb-4">О нас</h2>
                         <p class="text-white-50">
-                            Полезная хрень.
+
+        <hr>
+        <br>
 
 
+        <br>
+                        <div class="alert alert-secondary" role="alert">
+    разработчики: <br>
+{% if name %}
+    <ul>
+        {% for item in name %}
+            <li>
+                {{item}}
+            </li>
+        {% endfor %}
+
+
+    </ul>
+    {% else %}
+        Данных нет
+    {% endif %}
+                      <hr>  дата создания: {{creation_date}}
                         </p>
-                        <div class="input-group mb-3">
-
-                             <form action="results.html">
-                                 <p><select name="where">
-                <option value="all">Везде</option>
-                <option value="company">В названии компании</option>
-                <option selected value="name">В названии вакансии</option>
-            </select></p>
-  <input type="text" class="form-control" placeholder="Введите запрос" aria-label="Имя пользователя" aria-describedby="basic-addon1">
-                                   <div class="input-group-prepend">
-
-                                        <input type="submit" value="Искать вакансии">
-  </div>
-                                    </form>
-</div>
                     </div>
                 </div>
-
+</div>
+                <img class="img-fluid" src="/static/assets/img/ipad.png" alt="..." />
             </div>
         </section>
 <h1></h1>
 
 </body>
 </html>
+
