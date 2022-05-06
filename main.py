@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request
 
+import baza
 import hh_rest
 from hh_rest import parse
 
+from baza import query
 
 app = Flask(__name__)
 
@@ -41,6 +43,10 @@ def results():
     global history
     return render_template('results.html', data=history)
 
+@app.route('/table/')
+def table():
+    res=baza.query()
+    return render_template('table.html', data=res)
 
 @app.route('/HH-parser/', methods=['GET'])
 def run_get():

@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Главная страничка</title>
-    <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
+    <title>Результат</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-
-    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+        <link href="/static/css/styles.css" rel="stylesheet" />
 </head>
 <body>
-
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
             <div class="container px-4 px-lg-5">
 
@@ -24,48 +22,85 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
+                       <li class="nav-item"><a class="nav-link" href="/">Главная</a></li>
                         <li class="nav-item"><a class="nav-link" href="/HH-parser/">HH-поиск</a></li>
 
                         <li class="nav-item"><a class="nav-link" href="/results/">Результат</a></li>
-                         <li class="nav-item"><a class="nav-link" href="/table/">Таблица</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/table/">Таблица</a></li>
                         <li class="nav-item"><a class="nav-link" href="/contacts/">Контакты</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-  <section class="about-section text-left" id="about">
+  <section class="about-section text-center" id="about">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
-                        <h2 class="text-white mb-4">О нас</h2>
+                        <h2 class="text-white mb-4"> Таблица, которая в SQLite хранится</h2>
                         <p class="text-white-50">
 
-        <hr>
-        <br>
+                               <div class="alert alert-info" role="alert" >
+ {% if data %}
+   <table>
 
-
-        <br>
-                        <div class="alert alert-secondary" role="alert">
-    разработчики: <br>
-{% if name %}
-    <ul>
-        {% for item in name %}
-            <li>
-                {{item}}
-            </li>
+        {% for item in data %}
+                        <tr>
+            <td>
+                {{item[0]}}
+            </td>
+        <td>
+                             {{item[1]}}
+                </td>
+                            <td>
+                             {{item[2]}}
+                </td>
+                            <td>
+                             {{item[3]}}
+                </td>
+        </tr>
         {% endfor %}
 
 
-    </ul>
+</table>
+
     {% else %}
         Данных нет
+                        <table>
+    <tr>
+
+        <th>Название</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+
+        <td>Место работы</td>
+        <td>Яхта "Беда"</td>
+    </tr>
+    <tr>
+
+        <td>Должность</td>
+        <td>Старший помошник</td>
+    </tr>
+    <tr>
+
+        <td>Зарплата </td>
+        <td>Пиво</td>
+    </tr>
+                        <tr>
+
+        <td>Премия </td>
+        <td>Вобла</td>
+    </tr>
+</table>
     {% endif %}
-                      <hr>  дата создания: {{creation_date}}
+
+
+
+
+</div>
                         </p>
                     </div>
                 </div>
-</div>
                 <img class="img-fluid" src="/static/assets/img/ipad.png" alt="..." />
             </div>
         </section>
@@ -73,4 +108,3 @@
 
 </body>
 </html>
-
