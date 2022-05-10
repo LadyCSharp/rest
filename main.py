@@ -5,7 +5,7 @@ import hh_rest
 from hh_rest import parse
 
 from baza import query
-
+from Alchemy import init, search, search_history
 app = Flask(__name__)
 
 history = dict()
@@ -43,6 +43,14 @@ def results():
     global history
     return render_template('results.html', data=history)
 
+
+@app.route('/history/')
+def s_history():
+
+    history = search_history()
+    return render_template('history.html', data=history)
+
+
 @app.route('/table/')
 def table():
     res=baza.query()
@@ -64,7 +72,10 @@ def run_post():
     rez = hh_rest.parse(text)
     global history
     history = rez
+
+    search(text)
     return render_template('results.html',data=rez)
 
 if __name__ == "__main__":
+    init()
     app.run(debug=True)
