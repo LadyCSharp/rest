@@ -3,11 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from hh_rest import parse
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.expression import exists
+#import sqlite3
 engine = create_engine('sqlite:///orm.sqlite', echo=False)
 
 Base = declarative_base()
 
-vacancyskill = Table('vacancyskill', Base.metadata,
+Vacancyskill = Table('vacancyskill', Base.metadata,
                      Column('id', Integer, primary_key=True),
                      Column('vacancy_id', Integer, ForeignKey('vacancy.id')),
                      Column('skill_id', Integer, ForeignKey('skill.id'))
@@ -31,8 +33,7 @@ class Vacancy(Base):
     salary = Column(Integer)
     # Связь 1 - много, связь внешний ключ
     region_id = Column(Integer, ForeignKey('region.id'))
-    children = relationship('Skill',
-                            secondary = vacancyskill)
+    skills = relationship("Skill", secondary=Vacancyskill, backref='skill')
 
     def __init__(self, name, salary, region_id):
         self.name = name
@@ -73,7 +74,10 @@ def init():
     session = Session()
 
     # Регионы
-    session.add_all([Region('Москва', 0), Region('Питер', 78), Region('Нижний Новгород', 52)])
+
+    if session.query(Region).count()==0:
+
+        session.add_all([Region('Москва', 0), Region('Питер', 78), Region('Нижний Новгород', 52)])
 
     # Скилы
     # session.add_all([Skill('python'), Skill('java')])
@@ -109,21 +113,38 @@ def search(text):
     session = Session()
 
 
+
+
     if session.query(Vacancy).filter(Vacancy.name == text).count() == 0:
         rez = parse(text)
-        new_vacancy = Vacancy(text, rez['salary'], 52)
+        new_vacancy = Vacancy(text, rez['salary'], 3)
+
+        # vac_id=session.query(Vacancy).filter(Vacancy.name == text).first().id
+
+        for s in rez['requirements']:
+
+            if session.query(Skill).filter(Skill.name == s[0]).count() == 0:
+                ska = Skill(s[0])
+                session.add(ska)
+            else:
+                ska = session.query(Skill).filter(Skill.name == s[0]).first()
+            new_vacancy.skills.append(ska)
+
+            # sk_id = session.query(Skill).filter(Skill.name == s[0]).first().id
+            # Подключение к базе данных
+            # conn = sqlite3.connect('orm.sqlite')
+
+            # Создаем курсор
+            # cursor = conn.cursor()
+            # cursor.execute("insert into Vacancyskill (vacancy_id, skill_id) VALUES (?, ?)", (vac_id, sk_id))
+            # insert_table=Vacancyskill.insert(vacancy_id = vac_id, skill_id=sk_id)
+            # engine.execute(insert_table)
+            # session.commit()
+            # print(vac_id, sk_id)
         session.add(new_vacancy)
 
         session.commit()
-        vac_id=session.query(Vacancy).filter(Vacancy.name == text).first().id
 
-        for s in rez['requirements']:
-            if session.query(Skill).filter(Skill.name == s[0]).count() == 0:
-                session.add(Skill(s[0]))
-            sk_id=session.query(Skill).filter(Skill.name == s[0]).first().id
-            vacancyskill.insert([vac_id,sk_id])
-
-        session.commit()
 
 def search_history():
     # Заполняем таблицы
@@ -131,6 +152,11 @@ def search_history():
 
     # create a Session
     session = Session()
+    # query1=session.query(Vacancy.name, Vacancy.salary, Region.name, Skill.name).join(Skill).\
+    #     filter(Vacancy.region_id == Region.number).all()
 
-    return session.query(Vacancy.name, Vacancy.salary, Region.name, Skill.name).\
-        filter(Vacancy.region_id == Region.number).all()
+    # query1 = session.query(Vacancy).join(Skill). \
+    #     join(Region).all()
+    query1 = session.query(Vacancy.name, Vacancy.salary, Region.name, Skill.name).join(Region).join(Vacancy.skills)
+    # print(query1)
+    return query1.all()
